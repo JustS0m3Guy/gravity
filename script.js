@@ -1,26 +1,52 @@
 circl.setAttribute('fill', 'teal');
-startbutton.addEventListener('click', start);
-resetbutton.addEventListener('click', reset);
+startbtn.addEventListener('click', start);
+resetbtn.addEventListener('click', reset);
+stopbtn.addEventListener("click", animationStop);
 
-const sleep = (milliseconds) => {
-    return new Promise(resolve => setTimeout(resolve, milliseconds))
-}
+let globalID;
+let running = false;
+let dxphi;
+let dr;
+let p;
+let u;
 
 function reset(){
-    let x = parseFloat(sx.value);
-    let y = parseFloat(sy.value);
-    circl.cx.baseVal.value=x;
-    circl.cy.baseVal.value=y;
+    dphi = parseFloat(sx.value);
+    dr = parseFloat(sy.value);
+    circl.cx.baseVal.value=dr;
+    circl.cy.baseVal.value=dphi;
 }
 
-async function start(){
-    let x = parseFloat(vx.value);
-    let y = parseFloat(vy.value);
+function update() {
+    // begin frame
+    p.phi+=dphi;
+    p.r+=dr;
+    u = Vector.addition(p.to_cartesian(), new Vector(350, 150));
 
-    for (let i = 0; i < 100; i++) {
-        circl.cx.baseVal.value+=x;
-        circl.cy.baseVal.value+=y;
-        await sleep(100);
+    circl.cx.baseVal.value=u.x;
+    circl.cy.baseVal.value=u.y;
+
+    // end frame
+    globalID = requestAnimationFrame(update);
+}
+
+function start(){
+    p = new PolarVector(0, 0);
+    dphi = parseFloat(vx.value);
+    dr = parseFloat(vy.value);
+    animationStart();
+}
+
+function animationStart() {
+    if (!running) {
+        globalID = requestAnimationFrame(update);
+        running = true;
     }
 }
 
+function animationStop() {
+    if (running) {
+        cancelAnimationFrame(globalID);
+        running = false;
+    }
+}
