@@ -5,7 +5,7 @@ class PolarVector{
     }
     
     to_cartesian(){
-        let radphi = to_radian(this.phi)
+        let radphi = to_radian(this.phi);
         return new Vector(this.r*Math.cos(radphi), this.r*Math.sin(radphi));
     }
 
@@ -28,15 +28,15 @@ class Vector{
         this.y = y;
     }
 
-    static to_polar(){
-        return new PolarVector(to_degree(Math.atan2(u.y, u.x)), this.len)
+    to_polar(){
+        return new PolarVector(to_degree(Math.atan2(u.y, u.x)), this.len);
     }
 
-    static addition(u, v){
+    static add(u, v){
         return new Vector(u.x+v.x, u.y+v.y);
     }
 
-    addonto(that){
+    addto(that){
         this.x+=that.x;
         this.y+=that.y;
         return this;
@@ -69,16 +69,12 @@ class Vector{
     lensquare(u){
         return u.x**2+u.y**2;
     }
+    
+    static rotate(u, degree){
+        return u.to_polar().rotate(degree).to_cartesian();
+    }
 
     unitvector(){
         return new Vector(this.x/this.len(), this.y/this.len());
     }
-
-    rotate(u, degree){
-        return u.to_polar().rotate(degree).to_cartesian();
-    }
 }
-
-
-u = new Vector(5, 4);
-v = new Vector(2, 1);

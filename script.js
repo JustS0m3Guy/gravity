@@ -1,4 +1,3 @@
-circl.setAttribute('fill', 'teal');
 startbtn.addEventListener('click', start);
 resetbtn.addEventListener('click', reset);
 stopbtn.addEventListener("click", animationStop);
@@ -18,10 +17,12 @@ function reset(){
 }
 
 function update() {
-    // begin frame
+    // frame start
+
     p.phi+=dphi;
     p.r+=dr;
-    u = Vector.addition(p.to_cartesian(), new Vector(350, 150));
+
+    u = Vector.add(p.to_cartesian(), new Vector(0, 0));
 
     circl.cx.baseVal.value=u.x;
     circl.cy.baseVal.value=u.y;
