@@ -1,16 +1,16 @@
 class PolarVector{
-    constructor(phi ,r){
+    constructor(phi,r){
         this.phi = phi;
         this.r = r;
     }
-    
+
     to_cartesian(){
         let radphi = to_radian(this.phi);
         return new Vector(this.r*Math.cos(radphi), this.r*Math.sin(radphi));
     }
 
-    rotate(phi){
-        return new PolarVector(this.phi+phi, this.r);
+    forgatott(f){
+        return new PolarVector(this.phi+f, this.r);
     }
 }
 
@@ -19,7 +19,7 @@ function to_degree(radian){
 }
 
 function to_radian(degree){
-    return degree*Math.PI;
+    return degree*Math.PI/180;
 }
 
 class Vector{
@@ -28,11 +28,7 @@ class Vector{
         this.y = y;
     }
 
-    to_polar(){
-        return new PolarVector(to_degree(Math.atan2(u.y, u.x)), this.len);
-    }
-
-    static add(u, v){
+    static add(u,v){
         return new Vector(u.x+v.x, u.y+v.y);
     }
 
@@ -42,38 +38,42 @@ class Vector{
         return this;
     }
 
-    static subtraction(u, v){
+    static subtract(u,v){
         return new Vector(u.x-v.x, u.y-v.y);
     }
 
-    static reverse(){
-        return new Vector(-this.x, -this.y);
+    static reverse(u){
+        return new Vector(-u.x, -u.y);
     }
 
-    static rotateleft90(){
-        return new Vector(-this.y, this.x);
+    static rotate90left(u){
+        return new Vector(-u.y, u.x);
     }
 
-    static rotateright90(){
-        return new Vector(this.y, -this.x);
+    static rotate90right(u){
+        return new Vector(u.y, -u.x);
     }
 
-    static nummultiply(u, a){
+    static multiplynum(u,a){
         return new Vector(u.x*a, u.y*a);
     }
 
-    len(u){
-        return Math.sqrt(this.lensquare());
+    to_polar(){
+        return new PolarVector(to_degree(Math.atan2(this.y,this.x)), this.len());
     }
 
-    lensquare(u){
-        return u.x**2+u.y**2;
+    len(){
+        return Math.sqrt(this.hossznegyzet());
+    }
+
+    lensqr(){
+        return this.x**2+this.y**2;
+    }
+
+    static rotate(u, fok){
+        return u.polar().rotate(fok).to_cartesian();   
     }
     
-    static rotate(u, degree){
-        return u.to_polar().rotate(degree).to_cartesian();
-    }
-
     unitvector(){
         return new Vector(this.x/this.len(), this.y/this.len());
     }

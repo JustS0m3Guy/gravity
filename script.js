@@ -4,29 +4,23 @@ stopbtn.addEventListener("click", animationStop);
 
 let globalID;
 let running = false;
+
+let u;
+let p;
 let dxphi;
 let dr;
-let p;
-let u;
-
-function reset(){
-    dphi = parseFloat(sx.value);
-    dr = parseFloat(sy.value);
-    circl.cx.baseVal.value=dr;
-    circl.cy.baseVal.value=dphi;
-}
 
 function update() {
     // frame start
-
+    
     p.phi+=dphi;
     p.r+=dr;
-
+    
     u = Vector.add(p.to_cartesian(), new Vector(0, 0));
-
+    
     circl.cx.baseVal.value=u.x;
     circl.cy.baseVal.value=u.y;
-
+    
     // end frame
     globalID = requestAnimationFrame(update);
 }
@@ -36,6 +30,13 @@ function start(){
     dphi = parseFloat(vx.value);
     dr = parseFloat(vy.value);
     animationStart();
+}
+
+function reset(){
+    dphi = parseFloat(sx.value);
+    dr = parseFloat(sy.value);
+    circl.cx.baseVal.value=dr;
+    circl.cy.baseVal.value=dphi;
 }
 
 function animationStart() {
