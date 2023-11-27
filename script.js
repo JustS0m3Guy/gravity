@@ -4,6 +4,7 @@ stopbtn.addEventListener("click", animationStop);
 
 let globalID;
 let running = false;
+
 let u;
 let p;
 let dxphi;
