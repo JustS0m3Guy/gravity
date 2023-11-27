@@ -14,11 +14,20 @@ class Celestialb{
         this.refresh();
     }
 
+    /**
+     * @param {[Vector, Vector]} starting_positions 
+     */
+    reset(starting_positions){
+        this.p = starting_positions[0][0];
+        this.p = starting_positions[0][1];
+        this.v = starting_positions[1][1];
+        this.refresh();
+    }
+    
     refresh(){
         this.svgobject.setAttribute('cx', this.p.x);
         this.svgobject.setAttribute('cy', this.p.y);
     }
-
 
     /**
      * @param {Celestialb[]} celestialbs
