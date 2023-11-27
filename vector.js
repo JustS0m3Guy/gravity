@@ -39,7 +39,7 @@ class Vector{
     }
 
     static subtract(u,v){
-        return new Vector(u.x-v.x, u.y-v.y);
+        return new Vector(u.x-v.x, u.y-v.y); 
     }
 
     static reverse(u){
@@ -54,8 +54,12 @@ class Vector{
         return new Vector(u.y, -u.x);
     }
 
-    static multiplynum(u,a){
+    static multiplynum(u, a){
         return new Vector(u.x*a, u.y*a);
+    }
+
+    static devidenum(u, a){
+        return new Vector(u.x/a, u.y/a)
     }
 
     to_polar(){
