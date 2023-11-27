@@ -1,26 +1,18 @@
 class Celestialb{
-    constructor(name, mass, p, v, incolor, outlcolor){
+    constructor(name, mass, p, v, incolor, outlcolor, galaxy){
         this.name = name;
         this.mass = mass;
         this.incolor = incolor;
         this.outlcolor = outlcolor;
+        this.starting_positions = [p, v];
         this.p = p;
         this.v = v;
         this.svgobject = this.in_svg();
+        galaxy.celestialbs.push(this);
     }
 
     move(){
         this.p.addto(this.v);
-        this.refresh();
-    }
-
-    /**
-     * @param {[Vector, Vector]} starting_positions 
-     */
-    reset(starting_positions){
-        this.p = starting_positions[0][0];
-        this.p = starting_positions[0][1];
-        this.v = starting_positions[1][1];
         this.refresh();
     }
     
