@@ -4,7 +4,7 @@ class Celestialb{
         this.mass = mass;
         this.incolor = incolor;
         this.outlcolor = outlcolor;
-        this.starting_positions = [p, v];
+        this.starting_positions = [p.clone(), v.clone()];
         this.p = p;
         this.v = v;
         this.svgobject = this.in_svg();
@@ -14,6 +14,17 @@ class Celestialb{
     move(){
         this.p.addto(this.v);
         this.refresh();
+    }
+
+    reset_poz(){
+        for (let i = 0; i < milkyway.celestialbs.length; i++) {
+            this.svgobject.setAttribute('cx', this.starting_positions[0].x);
+            this.svgobject.setAttribute('cy', this.starting_positions[0].y);
+            this.p.x = this.starting_positions[0].x;
+            this.p.y = this.starting_positions[0].y;
+            this.v.x = this.starting_positions[1].x;
+            this.v.y = this.starting_positions[1].y;
+        }
     }
     
     refresh(){
