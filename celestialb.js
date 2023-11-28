@@ -4,9 +4,9 @@ class Celestialb{
         this.mass = mass;
         this.incolor = incolor;
         this.outlcolor = outlcolor;
-        this.starting_positions = [p, v];
         this.p = p;
         this.v = v;
+        this.starting_positions = [];
         this.svgobject = this.in_svg();
         galaxy.celestialbs.push(this);
     }

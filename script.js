@@ -15,19 +15,10 @@ function initialisation(){
     canvas.appendChild(sun.svgobject);
     canvas.appendChild(earth.svgobject);
     canvas.appendChild(moon.svgobject);
+    for (let i = 0; i < milkyway.celestialbs.length; i++) {
+        milkyway.celestialbs[i].starting_positions = [milkyway.celestialbs[i].p, milkyway.celestialbs[i].v];
+    }
     console.log(milkyway.celestialbs);
-    console.log(milkyway.celestialbs[0].starting_positions[0]);
-    console.log(milkyway.celestialbs[0].starting_positions[0]);
-    console.log(milkyway.celestialbs[0].starting_positions[1]);
-    console.log(milkyway.celestialbs[0].starting_positions[1]);
-    console.log(milkyway.celestialbs[0].starting_positions[0].x);
-    console.log(milkyway.celestialbs[0].starting_positions[0].y);
-    console.log(milkyway.celestialbs[0].starting_positions[1].x);
-    console.log(milkyway.celestialbs[0].starting_positions[1].y);
-    console.log(milkyway.celestialbs[0].p.x);
-    console.log(milkyway.celestialbs[0].p.y);
-    console.log(milkyway.celestialbs[0].v.x);
-    console.log(milkyway.celestialbs[0].v.y);
 }
 
 function simulation_step(){
