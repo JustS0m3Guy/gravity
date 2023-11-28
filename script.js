@@ -9,7 +9,7 @@ let running = false;
 let milkyway = new Galaxy("Milkyway");
 
 function initialisation(){
-    
+
 }
 
 function simulation_step(){
@@ -23,6 +23,13 @@ function reset(){
     for (const celestialbody of milkyway.celestialbs) {
         celestialbody.reset_poz();
     }
+}
+
+function centerOfMassReset() {
+    let s = milkyway.centerofmass();
+    console.log(s);
+    milkyway.eltolas(Vektor.ellentett(s));
+
 }
 
 function place_planet(evt) {
