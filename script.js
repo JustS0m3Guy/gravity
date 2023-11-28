@@ -1,6 +1,7 @@
+stopbtn.addEventListener("click", animationStop);
 startbtn.addEventListener('click', start);
 resetbtn.addEventListener('click', reset);
-stopbtn.addEventListener("click", animationStop);
+deletebtn.addEventListener("click", deletePlanets);
 masspointbtn.addEventListener("click", centerOfMassReset);
 canvas.addEventListener("mousedown", placePlanet, false);
 planetbtn.addEventListener("click", placePlanet);
@@ -11,7 +12,7 @@ let running = false;
 let milkyway = new Galaxy("Milkyway");
 
 function initialisation(){
-
+    
 }
 
 function simulationStep(){
@@ -19,12 +20,18 @@ function simulationStep(){
     for (const celestialbody of milkyway.celestialbs) {
         celestialbody.move();
     }
+    //centerOfMassReset();
 }
 
 function reset(){
     for (const celestialbody of milkyway.celestialbs) {
         celestialbody.resetPoz();
     }
+}
+
+function deletePlanets(){
+    canvas.innerHTML = "";
+    milkyway.celestialbs = [];
 }
 
 function centerOfMassReset() {
@@ -43,7 +50,6 @@ function placePlanet(evt) {
     let tiny_planet = new Celestialb(planetname.value, parseFloat(mass.value), p, v, celestialb_incolor.value, celestialb_outcolor.value, milkyway);
     canvas.appendChild(tiny_planet.svgobject);
 }
-    
 function cursorPoint(evt) {
     let pt = canvas.createSVGPoint();
     pt.x = evt.clientX; 
