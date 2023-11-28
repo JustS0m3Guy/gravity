@@ -4,10 +4,9 @@ class Celestialb{
         this.mass = mass;
         this.incolor = incolor;
         this.outlcolor = outlcolor;
-        this.starting_positions = [p.clone(), v.clone()];
         this.p = p;
         this.v = v;
-        this.starting_positions = [];
+        this.starting_positions = [p.clone(), v.clone()];
         this.svgobject = this.in_svg();
         galaxy.celestialbs.push(this);
     }
@@ -17,7 +16,7 @@ class Celestialb{
         this.refresh();
     }
 
-    reset_poz(){
+    resetPoz(){
         for (let i = 0; i < milkyway.celestialbs.length; i++) {
             this.svgobject.setAttribute('cx', this.starting_positions[0].x);
             this.svgobject.setAttribute('cy', this.starting_positions[0].y);
@@ -36,10 +35,10 @@ class Celestialb{
     /**
      * @param {Celestialb[]} celestialbs
      */
-    static gravitational_effect(celestialbs){
+    static gravitationalEffect(celestialbs){
         for (let i = 0; i < celestialbs.length; i++) {
             for (let j = i + 1; j < celestialbs.length; j++) {
-                const[u, v] = this.gravitational_effect_for_pairs(celestialbs[i], celestialbs[j]);
+                const[u, v] = this.gravitationalForceOnPairs(celestialbs[i], celestialbs[j]);
                 celestialbs[i].v.addto(u);
                 celestialbs[j].v.addto(v);
             }
@@ -52,7 +51,7 @@ class Celestialb{
     * @param {Celestialb} f *
     * @returns {[Vector, Vector]} *
     */
-    static gravitational_effect_for_pairs(e, f){
+    static gravitationalForceOnPairs(e, f){
         const from_f_to_e_vector = Vector.subtract(e.p, f.p);
         const r_sqr = from_f_to_e_vector.lensqr();
         const r = Math.sqrt(r_sqr);

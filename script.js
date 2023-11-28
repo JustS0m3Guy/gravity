@@ -1,7 +1,9 @@
 startbtn.addEventListener('click', start);
 resetbtn.addEventListener('click', reset);
 stopbtn.addEventListener("click", animationStop);
-canvas.addEventListener("mousedown", place_planet, false);
+masspointbtn.addEventListener("click", centerOfMassReset);
+canvas.addEventListener("mousedown", placePlanet, false);
+planetbtn.addEventListener("click", placePlanet);
 
 let globalID;
 let running = false;
@@ -12,8 +14,8 @@ function initialisation(){
 
 }
 
-function simulation_step(){
-    Celestialb.gravitational_effect(milkyway.celestialbs);
+function simulationStep(){
+    Celestialb.gravitationalEffect(milkyway.celestialbs);
     for (const celestialbody of milkyway.celestialbs) {
         celestialbody.move();
     }
@@ -21,18 +23,18 @@ function simulation_step(){
 
 function reset(){
     for (const celestialbody of milkyway.celestialbs) {
-        celestialbody.reset_poz();
+        celestialbody.resetPoz();
     }
 }
 
 function centerOfMassReset() {
     let s = milkyway.centerofmass();
     console.log(s);
-    milkyway.eltolas(Vektor.ellentett(s));
+    milkyway.offset(Vector.reverse(s));
 
 }
 
-function place_planet(evt) {
+function placePlanet(evt) {
     let cursorpt = cursorPoint(evt);
     let p = new Vector(cursorpt.x, cursorpt.y);
     px.value = p.x;
@@ -52,7 +54,7 @@ function cursorPoint(evt) {
 //--------------------------------------------------
 
 function update() {
-    simulation_step();
+    simulationStep();
     globalID = requestAnimationFrame(update);
 }
 
