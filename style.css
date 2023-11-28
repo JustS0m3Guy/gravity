@@ -1,3 +1,43 @@
+body{
+    margin:0;
+    display: grid;
+    grid-template-rows: fit-content(100%) 1fr;
+    grid-template-columns: 70vw 30vw;
+    background-color: #111111;
+    color: antiquewhite;
+}
+
+
+header{
+    margin: 1rem 7rem 1rem 1rem;
+    grid-column: 1/3;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+header div{
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+}
+
+
 svg{
+    margin-left: .5rem;
     border: solid black 2px;
+    background-color: #222222;
+    height: 85vh;
+}
+
+
+#command_panel{
+    justify-self: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: left;
+    align-items: center;
+    gap:1rem;
+}
+#command_panel label{
+    margin-bottom: -.75rem;
 }

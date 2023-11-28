@@ -81,4 +81,13 @@ class Vector{
     unitvector(){
         return new Vector(this.x/this.len(), this.y/this.len());
     }
+
+    clone(){
+        return new Vector(this.x, this.y);
+    }
+
+    devide(a){
+        this.x/=a;
+        this.y/=a;
+    }
 }
