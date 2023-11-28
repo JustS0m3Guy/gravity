@@ -67,7 +67,7 @@ class Vector{
     }
 
     len(){
-        return Math.sqrt(this.hossznegyzet());
+        return Math.sqrt(this.lensqr());
     }
 
     lensqr(){
