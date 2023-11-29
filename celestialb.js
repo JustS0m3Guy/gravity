@@ -4,11 +4,18 @@ class Celestialb{
         this.mass = mass;
         this.incolor = incolor;
         this.outlcolor = outlcolor;
+        this.starting_positions = [p.clone(), v.clone()];
         this.p = p;
         this.v = v;
-        this.starting_positions = [p.clone(), v.clone()];
-        this.svgobject = this.in_svg();
+        this.svgobject = this.svgPlanet();
         galaxy.celestialbs.push(this);
+        this.svgobject.addEventListener('contextmenu', e => {e.preventDefault(); e.stopPropagation(); this.delete});
+    }
+
+    delete(){
+        this.svgobject.remove();
+        this.milkyway.celestialbs.splice(this.milkyway.celestialbs.indexOf(this), 1);
+        delete this;
     }
 
     move(){
@@ -17,14 +24,10 @@ class Celestialb{
     }
 
     resetPoz(){
-        for (let i = 0; i < milkyway.celestialbs.length; i++) {
-            this.svgobject.setAttribute('cx', this.starting_positions[0].x);
-            this.svgobject.setAttribute('cy', this.starting_positions[0].y);
-            this.p.x = this.starting_positions[0].x;
-            this.p.y = this.starting_positions[0].y;
-            this.v.x = this.starting_positions[1].x;
-            this.v.y = this.starting_positions[1].y;
-        }
+        this.svgobject.setAttribute('cx', this.starting_positions[0].x);
+        this.svgobject.setAttribute('cy', this.starting_positions[0].y);
+        this.p = this.starting_positions[0].clone();
+        this.v = this.starting_positions[1].clone();
     }
     
     refresh(){
@@ -63,7 +66,7 @@ class Celestialb{
         return [movement_e, movement_f];
     }
 
-    in_svg(){
+    svgPlanet(){
         let svgo = document.createElementNS("http://www.w3.org/2000/svg", 'circle');
         svgo.setAttribute('cx', this.p.x);
         svgo.setAttribute('cy', this.p.y);

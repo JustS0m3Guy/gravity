@@ -12,7 +12,6 @@ class Galaxy{
 
     centerofmass(){
         let result = new Vector(0,0);
-        console.log(result);
         for (const celestialbody of this.celestialbs) {
             result.addto(celestialbody.p);
         }

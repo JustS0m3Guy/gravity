@@ -36,7 +36,6 @@ function deletePlanets(){
 
 function centerOfMassReset() {
     let s = milkyway.centerofmass();
-    console.log(s);
     milkyway.offset(Vector.reverse(s));
 
 }
