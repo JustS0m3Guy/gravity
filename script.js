@@ -1,9 +1,5 @@
 stopbtn.addEventListener("click", animationStop);
 startbtn.addEventListener('click', start);
-resetbtn.addEventListener('click', reset);
-deletebtn.addEventListener("click", deletePlanets);
-masspointbtn.addEventListener("click", centerOfMassReset);
-planetbtn.addEventListener("click", placePlanet);
 
 let globalID;
 let running = false;
@@ -22,6 +18,20 @@ function simulationStep(){
     //centerOfMassReset();
 }
 
+canvas.addEventListener("wheel", zoom);
+
+function zoom(e){
+    const zoomc = 1.1;
+    if (e.deltaY < 0){
+        canvas.setAttribute('viewBox', `${canvas.viewBox.animVal.x/zoomc} ${canvas.viewBox.animVal.y/zoomc} ${canvas.viewBox.animVal.width/zoomc} ${canvas.viewBox.animVal.height/zoomc}`);
+    } else if (e.deltaY > 0){
+        canvas.setAttribute('viewBox', `${canvas.viewBox.animVal.x*zoomc} ${canvas.viewBox.animVal.y*zoomc} ${canvas.viewBox.animVal.width*zoomc} ${canvas.viewBox.animVal.height*zoomc}`);
+    }
+}
+
+
+resetbtn.addEventListener('click', reset);
+
 function reset(){
     for (const celestialbody of milkyway.celestialbs) {
         celestialbody.setPoz();
@@ -29,10 +39,14 @@ function reset(){
     }
 }
 
-function deletePlanets(){
+deletebtn.addEventListener("click", deleteAllPlanets);
+
+function deleteAllPlanets(){
     canvas.innerHTML = "";
     milkyway.celestialbs = [];
 }
+
+masspointbtn.addEventListener("click", centerOfMassReset);
 
 function centerOfMassReset() {
     let s = milkyway.centerofmass();
@@ -42,6 +56,7 @@ function centerOfMassReset() {
 
 canvas.addEventListener("mousedown", implementPlanetPoz, false);
 canvas.addEventListener("mouseup", implementPanetSpeed, false);
+planetbtn.addEventListener("click", placePlanet);
 
 let globalClickCount = 0;
 
