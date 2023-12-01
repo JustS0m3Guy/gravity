@@ -11,13 +11,13 @@ class Celestialb{
         this.svgArrowUpdate();
         this.galaxy = milkyway;
         galaxy.celestialbs.push(this);
-        this.svgobject.addEventListener('contextmenu', e => {e.preventDefault(); e.stopPropagation(); this.delete});
+        this.svgobject.addEventListener('contextmenu', e => {e.preventDefault(); e.stopPropagation(); this.delete()});
     }
 
     delete(){
         this.svgarrow.remove();
         this.svgobject.remove();
-        this.milkyway.celestialbs.splice(this.milkyway.celestialbs.indexOf(this), 1);
+        this.galaxy.celestialbs.splice(this.galaxy.celestialbs.indexOf(this), 1);
         delete this;
     }
 

@@ -28,6 +28,5 @@ class Galaxy{
         for (const celestialbody of this.celestialbs) {
             celestialbody.svgarrow.classList.toggle('invisible');
         }
-        console.log("hoot");
     }
 }
