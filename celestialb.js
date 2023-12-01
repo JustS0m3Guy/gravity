@@ -4,15 +4,18 @@ class Celestialb{
         this.mass = mass;
         this.incolor = incolor;
         this.outlcolor = outlcolor;
-        this.starting_positions = [p.clone(), v.clone()];
-        this.p = p;
-        this.v = v;
-        this.svgobject = this.svgPlanet();
+        this.starting_positions = [p, v];
+        this.svgobject = this.svgPlanet(p);
+        this.svgarrow = this.makeSvgArrow();
+        this.setPoz();
+        this.svgArrowUpdate();
+        this.galaxy = milkyway;
         galaxy.celestialbs.push(this);
         this.svgobject.addEventListener('contextmenu', e => {e.preventDefault(); e.stopPropagation(); this.delete});
     }
 
     delete(){
+        this.svgarrow.remove();
         this.svgobject.remove();
         this.milkyway.celestialbs.splice(this.milkyway.celestialbs.indexOf(this), 1);
         delete this;
@@ -23,7 +26,7 @@ class Celestialb{
         this.refresh();
     }
 
-    resetPoz(){
+    setPoz(){
         this.svgobject.setAttribute('cx', this.starting_positions[0].x);
         this.svgobject.setAttribute('cy', this.starting_positions[0].y);
         this.p = this.starting_positions[0].clone();
@@ -66,14 +69,28 @@ class Celestialb{
         return [movement_e, movement_f];
     }
 
-    svgPlanet(){
+    svgPlanet(p){
         let svgo = document.createElementNS("http://www.w3.org/2000/svg", 'circle');
-        svgo.setAttribute('cx', this.p.x);
-        svgo.setAttribute('cy', this.p.y);
+        svgo.setAttribute('cx', p.x);
+        svgo.setAttribute('cy', p.y);
         svgo.setAttribute('r', Math.sqrt(this.mass));
         svgo.setAttribute('stroke', this.outlcolor);
         svgo.setAttribute('stroke-width', '2');
         svgo.setAttribute('fill', this.incolor);
         return svgo;
+    }
+
+    makeSvgArrow(){
+        let svgarrow = document.createElementNS("http://www.w3.org/2000/svg", 'path');
+        // <circle/>
+        svgarrow.setAttribute('marker-end', 'url(#head)');
+        svgarrow.setAttribute('stroke-width', 2);
+        svgarrow.setAttribute('fill', 'none');
+        svgarrow.setAttribute('stroke', 'gray');
+        svgarrow.setAttribute('stroke-width', '2');
+        return svgarrow;
+    }
+    svgArrowUpdate(){
+        this.svgarrow.setAttribute('d', `M${this.p.x},${this.p.y} ${this.p.x+this.v.x*100},${this.p.y+this.v.y*100}`);
     }
 }

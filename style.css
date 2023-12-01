@@ -41,3 +41,7 @@ svg{
 #command_panel label{
     margin-bottom: -.75rem;
 }
+
+.invisible{
+    display: none;
+}
