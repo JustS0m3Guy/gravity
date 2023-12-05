@@ -32,23 +32,10 @@ class Celestialb{
         this.p = this.starting_positions[0].clone();
         this.v = this.starting_positions[1].clone();
     }
-    
+
     refresh(){
         this.svgobject.setAttribute('cx', this.p.x);
         this.svgobject.setAttribute('cy', this.p.y);
-    }
-
-    /**
-     * @param {Celestialb[]} celestialbs
-     */
-    static gravitationalEffect(celestialbs){
-        for (let i = 0; i < celestialbs.length; i++) {
-            for (let j = i + 1; j < celestialbs.length; j++) {
-                const[u, v] = this.gravitationalForceOnPairs(celestialbs[i], celestialbs[j]);
-                celestialbs[i].v.addto(u);
-                celestialbs[j].v.addto(v);
-            }
-        }
     }
 
     static gamma = 1;
@@ -57,7 +44,7 @@ class Celestialb{
     * @param {Celestialb} f *
     * @returns {[Vector, Vector]} *
     */
-    static gravitationalForceOnPairs(e, f){
+    static gravitationalInteractionOnPairs(e, f){
         const from_f_to_e_vector = Vector.subtract(e.p, f.p);
         const r_sqr = from_f_to_e_vector.lensqr();
         const r = Math.sqrt(r_sqr);
