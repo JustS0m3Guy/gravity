@@ -38,6 +38,114 @@ class Celestialb{
         this.svgobject.setAttribute('cy', this.p.y);
     }
 
+    /**
+     * @param {Celestialb} cBody 
+     */
+    colides(cBody){
+        const distancesqr = Vector.subtract(this.p, cBody.p).lensqr();
+        const diamaterSumsqr = this.mass + cBody.mass;
+        return diamaterSumsqr > distancesqr;
+    }
+
+    colormix(color1, color2, ratio) {
+        ratio = Math.max(0, Math.min(1, ratio)); // Ensure ratio is between 0 and 1
+    
+        // Convert hex to HSL
+        const hexToHsl = (hex) => {
+            const bigint = parseInt(hex.slice(1), 16);
+            const r = (bigint >> 16) & 255;
+            const g = (bigint >> 8) & 255;
+            const b = bigint & 255;
+    
+            const normalizedR = r / 255;
+            const normalizedG = g / 255;
+            const normalizedB = b / 255;
+    
+            const max = Math.max(normalizedR, normalizedG, normalizedB);
+            const min = Math.min(normalizedR, normalizedG, normalizedB);
+    
+            let h, s, l = (max + min) / 2;
+    
+            if (max === min) {
+                h = s = 0; // achromatic
+            } else {
+                const d = max - min;
+                s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
+                switch (max) {
+                    case normalizedR:
+                        h = (normalizedG - normalizedB) / d + (normalizedG < normalizedB ? 6 : 0);
+                        break;
+                    case normalizedG:
+                        h = (normalizedB - normalizedR) / d + 2;
+                        break;
+                    case normalizedB:
+                        h = (normalizedR - normalizedG) / d + 4;
+                        break;
+                }
+                h /= 6;
+            }
+    
+            return { h, s, l };
+        };
+    
+        // Interpolate in HSL
+        const hsl1 = hexToHsl(color1);
+        const hsl2 = hexToHsl(color2);
+    
+        const hueDiff = hsl2.h - hsl1.h;
+    
+        if (Math.abs(hueDiff) > 0.5) {
+            // Ensure that interpolation goes the shortest way around the color wheel
+            hsl2.h -= Math.sign(hueDiff);
+        }
+    
+        const blendedHsl = {
+            h: hsl1.h + hueDiff * ratio,
+            s: hsl1.s + (hsl2.s - hsl1.s) * ratio,
+            l: hsl1.l + (hsl2.l - hsl1.l) * ratio
+        };
+    
+        // Convert back to hex
+        const hslToHex = (hsl) => {
+            const hueToRgb = (p, q, t) => {
+                if (t < 0) t += 1;
+                if (t > 1) t -= 1;
+                if (t < 1 / 6) return p + (q - p) * 6 * t;
+                if (t < 1 / 2) return q;
+                if (t < 2 / 3) return p + (q - p) * (2 / 3 - t) * 6;
+                return p;
+            };
+    
+            const { h, s, l } = hsl;
+            const q = l < 0.5 ? l * (1 + s) : l + s - l * s;
+            const p = 2 * l - q;
+            const r = hueToRgb(p, q, h + 1 / 3);
+            const g = hueToRgb(p, q, h);
+            const b = hueToRgb(p, q, h - 1 / 3);
+    
+            const componentToHex = (c) => {
+                const hex = Math.round(c * 255).toString(16);
+                return hex.length === 1 ? "0" + hex : hex;
+            };
+    
+            return `#${componentToHex(r)}${componentToHex(g)}${componentToHex(b)}`;
+        };
+    
+        return hslToHex(blendedHsl);
+    }
+    /**
+     * @param {Celestialb} cBody 
+     */
+    merge(cBody){
+        const new_name = this.name + cBody.name;
+        const new_mass = this.mass + cBody.mass;
+        const new_p = Vector.devidenum(Vector.add(Vector.multiplynum(this.p, this.mass), Vector.multiplynum(cBody.p, cBody.mass)), new_mass);
+        const new_v = Vector.devidenum(Vector.add(Vector.multiplynum(this.v, this.mass), Vector.multiplynum(cBody.v, cBody.mass)), new_mass);
+        const new_incolor = this.colormix(this.incolor, cBody.incolor, cBody.mass/new_mass);
+        const new_outcolor = this.colormix(this.outcolor, cBody.outcolor, cBody.mass/new_mass);
+        let tiny_planet = new Celestialb(new_name, new_mass, new_p, new_v, new_incolor, new_outcolor, milkyway);
+    }
+
     static gamma = 1;
     /**
     * @param {Celestialb} e *

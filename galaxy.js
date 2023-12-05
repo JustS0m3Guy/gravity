@@ -45,7 +45,13 @@ class Galaxy{
     }
     
     colideInteraction(){
-        
+        for (let i = 0; i < this.celestialbs.length; i++) {
+            for (let j = i + 1; j < this.celestialbs.length; j++) {
+                if (this.celestialbs[i].colides(this.celestialbs[j])) {
+                    this.celestialbs[i].merge(this.celestialbs[j]);
+                }
+            }
+        }
     }
 
     centerOfGravityReset(){

@@ -15,7 +15,7 @@ canvas.appendChild(m2.svgarrow);
 canvas.appendChild(m3.svgobject);
 canvas.appendChild(m3.svgarrow);
 /**/
-/**/
+/** /
 let sun = new Celestialb("Sun", 50000, new Vector(0, 0), new Vector(0, 0), "#FFEA00", "#FFEA00", milkyway);
 let earth = new Celestialb("Earth", 50, new Vector(-1000, 0), new Vector(0, 7.5), "#5BCEFA", "#5BCEFA", milkyway);
 let moon = new Celestialb("Moon", 1, new Vector(-1030, 0), new Vector(0, 8.75), "#444444", "#444444", milkyway);
@@ -34,7 +34,7 @@ function simulationStep(){
     milkyway.gravitationalInteraction();
     milkyway.colideInteraction();
     milkyway.move();
-    centerOfGravityReset();
+    //centerOfGravityReset();
 }
 
 resetbtn.addEventListener('click', reset);
