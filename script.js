@@ -5,9 +5,9 @@ let globalID;
 let running = false;
 let milkyway = new Galaxy("Milkyway");
 /** /
-let m1 = new Celestialb("m1", 1000, new Vector(-97.000436, 24.308753), new Vector(0.4662036850, 0.4323657300), "#5BCEFA", "#5BCEFA", milkyway);
-let m2 = new Celestialb("m2", 1000, new Vector(0, 0), new Vector(-0.93240737, -0.86473146), "#F5A9B8", "#F5A9B8", milkyway);
-let m3 = new Celestialb("m3", 1000, new Vector(97.000436, -24.308753), new Vector(0.4662036850, 0.4323657300), "#FFFFFF", "#FFFFFF", milkyway);
+let m1 = new Celestialb("m1", 100, new Vector(-97.000436, 24.308753), new Vector(0.4662036850, 0.4323657300), "#0000FF", "#0000FF", milkyway);
+let m2 = new Celestialb("m2", 100, new Vector(0, 0), new Vector(-0.93240737, -0.86473146), "#00FF00", "#00FF00", milkyway);
+let m3 = new Celestialb("m3", 100, new Vector(97.000436, -24.308753), new Vector(0.4662036850, 0.4323657300), "#FF0000", "#FF0000", milkyway);
 canvas.appendChild(m1.svgobject);
 canvas.appendChild(m1.svgarrow);
 canvas.appendChild(m2.svgobject);
@@ -15,7 +15,7 @@ canvas.appendChild(m2.svgarrow);
 canvas.appendChild(m3.svgobject);
 canvas.appendChild(m3.svgarrow);
 /**/
-/** /
+/**/
 let sun = new Celestialb("Sun", 50000, new Vector(0, 0), new Vector(0, 0), "#FFEA00", "#FFEA00", milkyway);
 let earth = new Celestialb("Earth", 50, new Vector(-1000, 0), new Vector(0, 7.5), "#5BCEFA", "#5BCEFA", milkyway);
 let moon = new Celestialb("Moon", 1, new Vector(-1030, 0), new Vector(0, 8.75), "#444444", "#444444", milkyway);
@@ -31,11 +31,29 @@ function initialisation(){
 }
 
 function simulationStep(){
-    Celestialb.gravitationalEffect(milkyway.celestialbs);
-    for (const celestialbody of milkyway.celestialbs) {
-        celestialbody.move();
-    }
-    centerOfMassReset();
+    milkyway.gravitationalInteraction();
+    milkyway.colideInteraction();
+    milkyway.move();
+    centerOfGravityReset();
+}
+
+resetbtn.addEventListener('click', reset);
+
+function reset(){
+    milkyway.reset();
+}
+
+deletebtn.addEventListener("click", deleteAllPlanets);
+
+function deleteAllPlanets(){
+    milkyway.deleteAllPlanets();
+}
+
+masspointbtn.addEventListener("click", centerOfGravityReset);
+
+function centerOfGravityReset() {
+    let s = milkyway.centerOfGravityReset();
+    milkyway.offset(Vector.reverse(s));
 }
 
 canvas.addEventListener("wheel", zoom);
@@ -47,31 +65,6 @@ function zoom(e){
     } else if (e.deltaY > 0){
         canvas.setAttribute('viewBox', `${canvas.viewBox.animVal.x*zoomc} ${canvas.viewBox.animVal.y*zoomc} ${canvas.viewBox.animVal.width*zoomc} ${canvas.viewBox.animVal.height*zoomc}`);
     }
-}
-
-
-resetbtn.addEventListener('click', reset);
-
-function reset(){
-    for (const celestialbody of milkyway.celestialbs) {
-        celestialbody.setPoz();
-        celestialbody.svgArrowUpdate();
-    }
-}
-
-deletebtn.addEventListener("click", deleteAllPlanets);
-
-function deleteAllPlanets(){
-    canvas.innerHTML = "";
-    milkyway.celestialbs = [];
-}
-
-masspointbtn.addEventListener("click", centerOfMassReset);
-
-function centerOfMassReset() {
-    let s = milkyway.centerofmass();
-    milkyway.offset(Vector.reverse(s));
-
 }
 
 canvas.addEventListener("mousedown", implementPlanetPoz, false);
