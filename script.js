@@ -5,17 +5,17 @@ let globalID;
 let running = false;
 let milkyway = new Galaxy("Milkyway");
 /** /
-let m1 = new Celestialb("m1", 1000, new Vector(-970.00436, 243.08753), new Vector(0.4662036850, 0.4323657300), "#5BCEFA", "#5BCEFA", milkyway);
-let m2 = new Celestialb("m2", 1000, new Vector(0, 0), new Vector(-0.93240737, -0.86473146), "#F5A9B8", "#F5A9B8", milkyway);
-let m3 = new Celestialb("m3", 1000, new Vector(970.00436, -243.08753), new Vector(0.4662036850, 0.4323657300), "#FFFFFF", "#FFFFFF", milkyway);
+let m1 = new Celestialb("m1", 100, new Vector(-97.000436, 24.308753), new Vector(0.4662036850, 0.4323657300), "#5BCEFA", "#5BCEFA", milkyway);
+let m2 = new Celestialb("m2", 100, new Vector(0, 0), new Vector(-0.93240737, -0.86473146), "#F5A9B8", "#F5A9B8", milkyway);
+let m3 = new Celestialb("m3", 100, new Vector(97.000436, -24.308753), new Vector(0.4662036850, 0.4323657300), "#FFFFFF", "#FFFFFF", milkyway);
 canvas.appendChild(m1.svgobject);
 canvas.appendChild(m1.svgarrow);
 canvas.appendChild(m2.svgobject);
 canvas.appendChild(m2.svgarrow);
 canvas.appendChild(m3.svgobject);
 canvas.appendChild(m3.svgarrow);
-*/
-/*
+/**/
+/** /
 let sun = new Celestialb("Sun", 50000, new Vector(0, 0), new Vector(0, 0), "#FFEA00", "#FFEA00", milkyway);
 let earth = new Celestialb("Earth", 50, new Vector(-1000, 0), new Vector(0, 7.5), "#5BCEFA", "#5BCEFA", milkyway);
 let moon = new Celestialb("Moon", 1, new Vector(-1030, 0), new Vector(0, 8.75), "#444444", "#444444", milkyway);
@@ -25,7 +25,7 @@ canvas.appendChild(earth.svgobject);
 canvas.appendChild(earth.svgarrow);
 canvas.appendChild(moon.svgobject);
 canvas.appendChild(moon.svgarrow);
-*/
+/**/
 function initialisation(){
 
 }
@@ -35,7 +35,7 @@ function simulationStep(){
     for (const celestialbody of milkyway.celestialbs) {
         celestialbody.move();
     }
-    //centerOfMassReset();
+    centerOfMassReset();
 }
 
 canvas.addEventListener("wheel", zoom);
