@@ -1,5 +1,5 @@
 class Celestialb{
-    constructor(name, mass, p, v, incolor, outlcolor, galaxy, orriginal){
+    constructor(name, mass, p, v, incolor, outlcolor, galaxy, orriginal = true){
         this.name = name;
         this.mass = mass;
         this.incolor = incolor;

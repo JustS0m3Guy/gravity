@@ -4,7 +4,7 @@ startbtn.addEventListener('click', start);
 let globalID;
 let running = false;
 let milkyway = new Galaxy("Milkyway");
-/** /
+/**/
 let m1 = new Celestialb("m1", 100, new Vector(-97.000436, 24.308753), new Vector(0.4662036850, 0.4323657300), "#0000FF", "#0000FF", milkyway);
 let m2 = new Celestialb("m2", 100, new Vector(0, 0), new Vector(-0.93240737, -0.86473146), "#00FF00", "#00FF00", milkyway);
 let m3 = new Celestialb("m3", 100, new Vector(97.000436, -24.308753), new Vector(0.4662036850, 0.4323657300), "#FF0000", "#FF0000", milkyway);
@@ -26,13 +26,14 @@ canvas.appendChild(earth.svgarrow);
 canvas.appendChild(moon.svgobject);
 canvas.appendChild(moon.svgarrow);
 /**/
-
-// let sun = new Celestialb("Sun", 50, new Vector(0, 100), new Vector(0, -10), "#FFEA00", "#FFEA00", milkyway, true);
-// let earth = new Celestialb("Earth", 50, new Vector(0, -100), new Vector(0, 10), "#5BCEFA", "#5BCEFA", milkyway, true);
-// canvas.appendChild(sun.svgobject);
-// canvas.appendChild(sun.svgarrow);
-// canvas.appendChild(earth.svgobject);
-// canvas.appendChild(earth.svgarrow);
+/** /
+let sun = new Celestialb("Sun", 50, new Vector(0, 100), new Vector(0, -10), "#FFEA00", "#FFEA00", milkyway);
+let earth = new Celestialb("Earth", 50, new Vector(0, -100), new Vector(0, 10), "#5BCEFA", "#5BCEFA", milkyway);
+canvas.appendChild(sun.svgobject);
+canvas.appendChild(sun.svgarrow);
+canvas.appendChild(earth.svgobject);
+canvas.appendChild(earth.svgarrow);
+/**/
 
 function initialisation(){
 
