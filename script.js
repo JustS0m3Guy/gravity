@@ -4,7 +4,7 @@ startbtn.addEventListener('click', start);
 let globalID;
 let running = false;
 let milkyway = new Galaxy("Milkyway");
-/**/
+/** /
 let m1 = new Celestialb("m1", 100, new Vector(-97.000436, 24.308753), new Vector(0.4662036850, 0.4323657300), "#0000FF", "#0000FF", milkyway);
 let m2 = new Celestialb("m2", 100, new Vector(0, 0), new Vector(-0.93240737, -0.86473146), "#00FF00", "#00FF00", milkyway);
 let m3 = new Celestialb("m3", 100, new Vector(97.000436, -24.308753), new Vector(0.4662036850, 0.4323657300), "#FF0000", "#FF0000", milkyway);
@@ -14,8 +14,11 @@ canvas.appendChild(m2.svgobject);
 canvas.appendChild(m2.svgarrow);
 canvas.appendChild(m3.svgobject);
 canvas.appendChild(m3.svgarrow);
+let m4 = new Celestialb("m4", 100, new Vector(-40, -10), new Vector(0, 0), "#FFFFFF", "#FFFFFF", milkyway);
+canvas.appendChild(m4.svgobject);
+canvas.appendChild(m4.svgarrow);
 /**/
-/** /
+/**/
 let sun = new Celestialb("Sun", 50000, new Vector(0, 0), new Vector(0, 0), "#FFEA00", "#FFEA00", milkyway);
 let earth = new Celestialb("Earth", 50, new Vector(-1000, 0), new Vector(0, 7.5), "#5BCEFA", "#5BCEFA", milkyway);
 let moon = new Celestialb("Moon", 1, new Vector(-1030, 0), new Vector(0, 8.75), "#444444", "#444444", milkyway);
@@ -55,7 +58,9 @@ function reset(){
 deletebtn.addEventListener("click", deleteAllPlanets);
 
 function deleteAllPlanets(){
-    milkyway.deleteAllPlanets();
+    milkyway.inactiveCelestialbs = [];
+    milkyway.celestialbs = [];
+    canvas.value = "";
 }
 
 masspointbtn.addEventListener("click", centerOfGravityReset);
@@ -80,7 +85,8 @@ canvas.addEventListener("mousedown", implementPlanetPoz, false);
 canvas.addEventListener("mouseup", implementPanetSpeed, false);
 planetbtn.addEventListener("click", placePlanet);
 
-let globalClickCount = 0;
+let nameNum = 4;
+let massDeviation = 0.5;
 
 let from = new Vector(0,0);
 let to = new Vector(0,0);
@@ -102,12 +108,11 @@ function implementPanetSpeed(evt){
 function placePlanet() {
     let p = new Vector(parseFloat(px.value), parseFloat(py.value));
     let v = new Vector(parseFloat(vx.value), parseFloat(vy.value));
-    let tiny_planet = new Celestialb(planetname.value, parseFloat(mass.value), p, v, celestialb_incolor.value, celestialb_outcolor.value, milkyway, true);
-    canvas.appendChild(tiny_planet.svgobject);
-    canvas.appendChild(tiny_planet.svgarrow);
+    let tiny_planet = new Celestialb(planetname.value + nameNum, parseFloat(mass.value), p, v, celestialb_incolor.value, celestialb_outcolor.value, milkyway, true);
     if(running){
         tiny_planet.svgarrow.classList.toggle('invisible');
     }
+    nameNum++;
 }
 function cursorPoint(evt) {
     let pt = canvas.createSVGPoint();

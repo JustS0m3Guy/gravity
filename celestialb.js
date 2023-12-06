@@ -13,6 +13,7 @@ class Celestialb{
         galaxy.celestialbs.push(this);
         this.svgobject.addEventListener('contextmenu', e => {e.preventDefault(); e.stopPropagation(); this.delete()});
         this.originality = orriginal;
+        this.draw();
     }
 
     delete(){
@@ -22,13 +23,13 @@ class Celestialb{
         delete this;
     }
 
-    reset() {
-        this.setPoz();
-        this.svgArrowUpdate();
+    draw(){
+        canvas.appendChild(this.svgobject);
+        canvas.appendChild(this.svgarrow);   
     }
 
     move(){
-        this.p.addto(this.v);
+        this.p.addTo(this.v);
         this.refresh();
     }
 
@@ -48,7 +49,7 @@ class Celestialb{
      * @param {Celestialb} cBody 
      */
     colides(cBody){
-        const distancesqr = Vector.subtract(this.p, cBody.p).lensqr();
+        const distancesqr = Vector.subtract(this.p, cBody.p).lenSqr();
         const diamaterSumsqr = this.mass + cBody.mass;
         return diamaterSumsqr > distancesqr;
     }
@@ -145,33 +146,26 @@ class Celestialb{
     merge(cBody, i, j){
         const new_name = this.name + cBody.name;
         const new_mass = this.mass + cBody.mass;
-        const new_p = Vector.devidenum(Vector.add(Vector.multiplynum(this.p, this.mass), Vector.multiplynum(cBody.p, cBody.mass)), new_mass);
-        const new_v = Vector.devidenum(Vector.add(Vector.multiplynum(this.v, this.mass), Vector.multiplynum(cBody.v, cBody.mass)), new_mass);
+        const new_p = Vector.devideNum(Vector.add(Vector.multiplyNum(this.p, this.mass), Vector.multiplyNum(cBody.p, cBody.mass)), new_mass);
+        const new_v = Vector.devideNum(Vector.add(Vector.multiplyNum(this.v, this.mass), Vector.multiplyNum(cBody.v, cBody.mass)), new_mass);
         const new_incolor = this.colormix(this.incolor, cBody.outlcolor, cBody.mass/new_mass);
         const new_outcolor = this.colormix(this.outlcolor, cBody.outlcolor, cBody.mass/new_mass);
-        this.galaxy.inactiveCelestialbs.push(this);
         cBody.galaxy.inactiveCelestialbs.push(cBody);
-        this.galaxy.celestialbs.splice(this.galaxy.celestialbs.indexOf(this), 1);
         cBody.galaxy.celestialbs.splice(cBody.galaxy.celestialbs.indexOf(cBody), 1);
+        this.galaxy.inactiveCelestialbs.push(this);
+        this.galaxy.celestialbs.splice(this.galaxy.celestialbs.indexOf(this), 1);
         this.svgarrow.remove();
         this.svgobject.remove();
         cBody.svgarrow.remove();
         cBody.svgobject.remove();
         let tiny_planet = new Celestialb(new_name, new_mass, new_p, new_v, new_incolor, new_outcolor, milkyway, false);
-        canvas.appendChild(tiny_planet.svgobject);
-        canvas.appendChild(tiny_planet.svgarrow);
         tiny_planet.svgarrow.classList.toggle('invisible');
     }
     reconstruct(){
-        // this.svgobject = this.svgPlanet(this.starting_positions[0]);
-        // this.svgarrow = this.makeSvgArrow();
-        console.log(this.svgobject);
-        console.log(this.svgarrow);
         canvas.appendChild(this.svgobject);
         canvas.appendChild(this.svgarrow);
         this.setPoz();
         this.svgArrowUpdate();
-        console.log('asd');
     }
 
     static gamma = 1;
@@ -182,13 +176,13 @@ class Celestialb{
     */
     static gravitationalInteractionOnPairs(e, f){
         const from_f_to_e_vector = Vector.subtract(e.p, f.p);
-        const r_sqr = from_f_to_e_vector.lensqr();
+        const r_sqr = from_f_to_e_vector.lenSqr();
         const r = Math.sqrt(r_sqr);
-        const unitvector_f = Vector.devidenum(from_f_to_e_vector, r);
+        const unitvector_f = Vector.devideNum(from_f_to_e_vector, r);
         const unitvector_e = Vector.reverse(unitvector_f);
         const stuff = Celestialb.gamma/r_sqr;
-        const movement_e = Vector.multiplynum(unitvector_e, stuff*f.mass);
-        const movement_f = Vector.multiplynum(unitvector_f, stuff*e.mass);
+        const movement_e = Vector.multiplyNum(unitvector_e, stuff*f.mass);
+        const movement_f = Vector.multiplyNum(unitvector_f, stuff*e.mass);
         return [movement_e, movement_f];
     }
 

@@ -4,21 +4,21 @@ class PolarVector{
         this.r = r;
     }
 
-    to_cartesian(){
-        let radphi = to_radian(this.phi);
+    toCartesian(){
+        let radphi = toRadian(this.phi);
         return new Vector(this.r*Math.cos(radphi), this.r*Math.sin(radphi));
     }
 
-    forgatott(f){
+    spun(f){
         return new PolarVector(this.phi+f, this.r);
     }
 }
 
-function to_degree(radian){
+function toDegree(radian){
     return radian*180/Math.PI;
 }
 
-function to_radian(degree){
+function toRadian(degree){
     return degree*Math.PI/180;
 }
 
@@ -32,7 +32,7 @@ class Vector{
         return new Vector(u.x+v.x, u.y+v.y);
     }
 
-    addto(that){
+    addTo(that){
         this.x+=that.x;
         this.y+=that.y;
         return this;
@@ -46,39 +46,39 @@ class Vector{
         return new Vector(-u.x, -u.y);
     }
 
-    static rotate90left(u){
+    static rotate90Left(u){
         return new Vector(-u.y, u.x);
     }
 
-    static rotate90right(u){
+    static rotate90Right(u){
         return new Vector(u.y, -u.x);
     }
 
-    static multiplynum(u, a){
+    static multiplyNum(u, a){
         return new Vector(u.x*a, u.y*a);
     }
 
-    static devidenum(u, a){
+    static devideNum(u, a){
         return new Vector(u.x/a, u.y/a)
     }
 
-    to_polar(){
-        return new PolarVector(to_degree(Math.atan2(this.y,this.x)), this.len());
+    toPolar(){
+        return new PolarVector(toDegree(Math.atan2(this.y,this.x)), this.len());
     }
 
     len(){
-        return Math.sqrt(this.lensqr());
+        return Math.sqrt(this.lenSqr());
     }
 
-    lensqr(){
+    lenSqr(){
         return this.x**2+this.y**2;
     }
 
     static rotate(u, fok){
-        return u.polar().rotate(fok).to_cartesian();   
+        return u.polar().rotate(fok).toCartesian();   
     }
     
-    unitvector(){
+    unitVector(){
         return new Vector(this.x/this.len(), this.y/this.len());
     }
 

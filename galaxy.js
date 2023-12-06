@@ -6,28 +6,36 @@ class Galaxy{
     }
 
     reset(){
-        console.log(this.inactiveCelestialbs);
-        this.inactiveCelestialbs.forEach(element => {console.log(element); this.celestialbs.push(element); element.originality && element.reconstruct()});
-        this.inactiveCelestialbs = [];
-        this.celestialbs.forEach(element => element.originality ? element.reset() : element.delete());
-    }
-
-    deleteAllPlanets(){
+        var to_delete = [];
         for (const celestialbody of this.celestialbs) {
-            console.log(celestialbody);
-            celestialbody.delete();
+            if (!celestialbody.originality){
+                to_delete.push(celestialbody);
+            }
+            else{
+                celestialbody.setPoz();
+                celestialbody.svgArrowUpdate();
+            }
+        }
+        for (const celestialbody of to_delete) {
+            celestialbody.delete();   
         }
         for (const celestialbody of this.inactiveCelestialbs) {
-            celestialbody.delete();
+            if (celestialbody.originality){
+                celestialbody.setPoz();
+                celestialbody.svgArrowUpdate();
+                celestialbody.draw();
+                this.celestialbs.push(celestialbody);
+            }            
         }
+        this.inactiveCelestialbs = [];
     }
 
     gravitationalInteraction(){
         for (let i = 0; i < this.celestialbs.length; i++) {
             for (let j = i + 1; j < this.celestialbs.length; j++) {
                 const[u, v] = Celestialb.gravitationalInteractionOnPairs(this.celestialbs[i], this.celestialbs[j]);
-                this.celestialbs[i].v.addto(u);
-                this.celestialbs[j].v.addto(v);
+                this.celestialbs[i].v.addTo(u);
+                this.celestialbs[j].v.addTo(v);
             }
         }
     }
@@ -40,7 +48,7 @@ class Galaxy{
 
     offset(v){
         for (const celestialbody of this.celestialbs) {
-            celestialbody.p.addto(v);
+            celestialbody.p.addTo(v);
         }
     }
     
@@ -57,7 +65,7 @@ class Galaxy{
     centerOfGravityReset(){
         let result = new Vector(0,0);
         for (const celestialbody of this.celestialbs) {
-            result.addto(celestialbody.p);
+            result.addTo(celestialbody.p);
         }
         result.devide(this.celestialbs.length);
         return result;
