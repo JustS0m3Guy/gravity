@@ -169,7 +169,6 @@ class Celestialb{
         console.log(this.svgarrow);
         canvas.appendChild(this.svgobject);
         canvas.appendChild(this.svgarrow);
-        this.svgarrow.classList.toggle('invisible');
         this.setPoz();
         this.svgArrowUpdate();
         console.log('asd');

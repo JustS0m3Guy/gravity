@@ -40,8 +40,8 @@ function initialisation(){
 }
 
 function simulationStep(){
-    milkyway.gravitationalInteraction();
     milkyway.colideInteraction();
+    milkyway.gravitationalInteraction();
     milkyway.move();
     //centerOfGravityReset();
 }
