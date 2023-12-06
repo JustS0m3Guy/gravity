@@ -6,10 +6,10 @@ class Galaxy{
     }
 
     reset(){
-        for (const celestialbody of this.celestialbs) {
-            celestialbody.setPoz();
-            celestialbody.svgArrowUpdate();
-        }
+        console.log(this.inactiveCelestialbs);
+        this.inactiveCelestialbs.forEach(element => {console.log(element); this.celestialbs.push(element); element.originality && element.reconstruct()});
+        this.inactiveCelestialbs = [];
+        this.celestialbs.forEach(element => element.originality ? element.reset() : element.delete());
     }
 
     deleteAllPlanets(){
@@ -48,7 +48,7 @@ class Galaxy{
         for (let i = 0; i < this.celestialbs.length; i++) {
             for (let j = i + 1; j < this.celestialbs.length; j++) {
                 if (this.celestialbs[i].colides(this.celestialbs[j])) {
-                    this.celestialbs[i].merge(this.celestialbs[j]);
+                    this.celestialbs[i].merge(this.celestialbs[j], i, j);
                 }
             }
         }

@@ -26,6 +26,14 @@ canvas.appendChild(earth.svgarrow);
 canvas.appendChild(moon.svgobject);
 canvas.appendChild(moon.svgarrow);
 /**/
+
+// let sun = new Celestialb("Sun", 50, new Vector(0, 100), new Vector(0, -10), "#FFEA00", "#FFEA00", milkyway, true);
+// let earth = new Celestialb("Earth", 50, new Vector(0, -100), new Vector(0, 10), "#5BCEFA", "#5BCEFA", milkyway, true);
+// canvas.appendChild(sun.svgobject);
+// canvas.appendChild(sun.svgarrow);
+// canvas.appendChild(earth.svgobject);
+// canvas.appendChild(earth.svgarrow);
+
 function initialisation(){
 
 }
@@ -93,7 +101,7 @@ function implementPanetSpeed(evt){
 function placePlanet() {
     let p = new Vector(parseFloat(px.value), parseFloat(py.value));
     let v = new Vector(parseFloat(vx.value), parseFloat(vy.value));
-    let tiny_planet = new Celestialb(planetname.value, parseFloat(mass.value), p, v, celestialb_incolor.value, celestialb_outcolor.value, milkyway);
+    let tiny_planet = new Celestialb(planetname.value, parseFloat(mass.value), p, v, celestialb_incolor.value, celestialb_outcolor.value, milkyway, true);
     canvas.appendChild(tiny_planet.svgobject);
     canvas.appendChild(tiny_planet.svgarrow);
     if(running){

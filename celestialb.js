@@ -1,5 +1,5 @@
 class Celestialb{
-    constructor(name, mass, p, v, incolor, outlcolor, galaxy){
+    constructor(name, mass, p, v, incolor, outlcolor, galaxy, orriginal){
         this.name = name;
         this.mass = mass;
         this.incolor = incolor;
@@ -9,9 +9,10 @@ class Celestialb{
         this.svgarrow = this.makeSvgArrow();
         this.setPoz();
         this.svgArrowUpdate();
-        this.galaxy = milkyway;
+        this.galaxy = galaxy;
         galaxy.celestialbs.push(this);
         this.svgobject.addEventListener('contextmenu', e => {e.preventDefault(); e.stopPropagation(); this.delete()});
+        this.originality = orriginal;
     }
 
     delete(){
@@ -19,6 +20,11 @@ class Celestialb{
         this.svgobject.remove();
         this.galaxy.celestialbs.splice(this.galaxy.celestialbs.indexOf(this), 1);
         delete this;
+    }
+
+    reset() {
+        this.setPoz();
+        this.svgArrowUpdate();
     }
 
     move(){
@@ -136,14 +142,37 @@ class Celestialb{
     /**
      * @param {Celestialb} cBody 
      */
-    merge(cBody){
+    merge(cBody, i, j){
         const new_name = this.name + cBody.name;
         const new_mass = this.mass + cBody.mass;
         const new_p = Vector.devidenum(Vector.add(Vector.multiplynum(this.p, this.mass), Vector.multiplynum(cBody.p, cBody.mass)), new_mass);
         const new_v = Vector.devidenum(Vector.add(Vector.multiplynum(this.v, this.mass), Vector.multiplynum(cBody.v, cBody.mass)), new_mass);
-        const new_incolor = this.colormix(this.incolor, cBody.incolor, cBody.mass/new_mass);
-        const new_outcolor = this.colormix(this.outcolor, cBody.outcolor, cBody.mass/new_mass);
-        let tiny_planet = new Celestialb(new_name, new_mass, new_p, new_v, new_incolor, new_outcolor, milkyway);
+        const new_incolor = this.colormix(this.incolor, cBody.outlcolor, cBody.mass/new_mass);
+        const new_outcolor = this.colormix(this.outlcolor, cBody.outlcolor, cBody.mass/new_mass);
+        this.galaxy.inactiveCelestialbs.push(this);
+        cBody.galaxy.inactiveCelestialbs.push(cBody);
+        this.galaxy.celestialbs.splice(this.galaxy.celestialbs.indexOf(this), 1);
+        cBody.galaxy.celestialbs.splice(cBody.galaxy.celestialbs.indexOf(cBody), 1);
+        this.svgarrow.remove();
+        this.svgobject.remove();
+        cBody.svgarrow.remove();
+        cBody.svgobject.remove();
+        let tiny_planet = new Celestialb(new_name, new_mass, new_p, new_v, new_incolor, new_outcolor, milkyway, false);
+        canvas.appendChild(tiny_planet.svgobject);
+        canvas.appendChild(tiny_planet.svgarrow);
+        tiny_planet.svgarrow.classList.toggle('invisible');
+    }
+    reconstruct(){
+        // this.svgobject = this.svgPlanet(this.starting_positions[0]);
+        // this.svgarrow = this.makeSvgArrow();
+        console.log(this.svgobject);
+        console.log(this.svgarrow);
+        canvas.appendChild(this.svgobject);
+        canvas.appendChild(this.svgarrow);
+        this.svgarrow.classList.toggle('invisible');
+        this.setPoz();
+        this.svgArrowUpdate();
+        console.log('asd');
     }
 
     static gamma = 1;
@@ -177,7 +206,6 @@ class Celestialb{
 
     makeSvgArrow(){
         let svgarrow = document.createElementNS("http://www.w3.org/2000/svg", 'path');
-        // <circle/>
         svgarrow.setAttribute('marker-end', 'url(#head)');
         svgarrow.setAttribute('stroke-width', 2);
         svgarrow.setAttribute('fill', 'none');
